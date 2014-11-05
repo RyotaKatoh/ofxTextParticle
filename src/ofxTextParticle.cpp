@@ -21,11 +21,14 @@ void ofxTextParticle::setup(string _text, ofPoint _center,string _fontPath, int 
     setString(_text);
     center = _center;
     threshold = 3.0;
+    interval = 5;
 
     vector<ofTTFCharacter> str = myFont.getStringAsPoints(text);
     
-    ofPoint textCenter = ofPoint(myFont.stringWidth(text)/2., 0);
+    ofPoint textCenter = ofPoint(myFont.stringWidth(text)/2., -myFont.stringHeight(text)/2.);
     ofPoint shift = center - textCenter;
+    
+    particleIndexByCharacter.push_back(0);
     
     // this loop is for each string.
     for(int i=0;i<str.size();i++){
@@ -93,6 +96,8 @@ void ofxTextParticle::setup(string _text, ofPoint _center,string _fontPath, int 
             
         }
         
+        particleIndexByCharacter.push_back(particles.size()-1);
+        
     }
 }
 
@@ -108,9 +113,28 @@ void ofxTextParticle::update(){
 
 void ofxTextParticle::draw(){
     
+//    for(int i=0;i<particles.size();i++){
+//    
+//        particles[i].draw();
+//        
+//    }
+    
     for(int i=0;i<particles.size();i++){
     
-        particles[i].draw();
+        if(ofRandom(1.0) < 0.2){
+        
+            ofPoint p1 = particles[i].getCenter();
+            
+            int rnd = ofRandom(interval);
+            if(i + rnd < particles.size()){
+                particles[i].draw();
+                particles[i+rnd].draw();
+                ofPoint p2 = particles[i+rnd].getCenter();
+                
+                ofLine(p1, p2);
+            }
+            
+        }
         
     }
 
@@ -132,6 +156,12 @@ void ofxTextParticle::noiseDraw(){
 void ofxTextParticle::setString(string _text){
 
     text = _text;
+    
+}
+
+void ofxTextParticle::setInterval(int _interval){
+
+    interval = _interval;
     
 }
 
