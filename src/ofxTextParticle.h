@@ -62,23 +62,6 @@ public:
         color = _col;
         
     }
-    ofColor getColor(){
-    
-        return color;
-        
-    }
-    
-    void setCenter(ofPoint _center){
-    
-        center = _center;
-        
-    }
-    ofPoint getCenter(){
-    
-        return center;
-    }
-    
-    
     
 private:
     ofPoint center;
@@ -98,12 +81,10 @@ public:
     void noiseDraw();
     
     void setString(string _text);
-    void setInterval(int _interval);
     
     ofVec2f getStringSize();
     
-    vector<Particle>    particles;
-    vector<int>         particleIndexByCharacter;
+    
 private:
     float diffPoints(ofPoint p1, ofPoint p2);
     
@@ -111,9 +92,9 @@ private:
     
     ofTrueTypeFont myFont;
     string text;
+    vector<Particle>    particles;
     
     float           threshold;
-    int     interval;
     
 };
 
